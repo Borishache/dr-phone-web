@@ -210,11 +210,11 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 80px;
+    height: 100px;
 }
 
 .logo-img {
-    height: 50px;
+    height: 75px;
     object-fit: contain;
 }
 
@@ -1028,6 +1028,120 @@ img {
 }
 
 .footer-logo {
-    height: 40px;
+    height: 60px;
     object-fit: contain;
+}
+
+/* ===== CRO: LEAD MAGNET ===== */
+.lead-magnet-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.25rem 2rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, rgba(255, 149, 0, 0.12), rgba(0, 113, 227, 0.08));
+    border: 1px solid rgba(255, 149, 0, 0.35);
+    border-radius: 16px;
+}
+.lm-badge {
+    background: var(--orange, #ff9500);
+    color: #000;
+    font-weight: 800;
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+.lm-content h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.25rem;
+}
+.lm-content h3 span {
+    color: var(--orange, #ff9500);
+}
+.lm-content p {
+    font-size: 0.9rem;
+    color: var(--text-muted, #86868b);
+    margin: 0;
+}
+.lm-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #34c759;
+    white-space: nowrap;
+}
+.lm-dot {
+    width: 8px;
+    height: 8px;
+    background: #34c759;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #34c759;
+    animation: pulse 1.8s infinite;
+}
+@media (max-width: 768px) {
+    .lead-magnet-card { flex-direction: column; text-align: center; }
+}
+
+/* ===== CRO: TESTIMONIOS ===== */
+.testimonials {
+    padding: 5rem 0;
+    position: relative;
+}
+.section-center-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+.test-card {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.test-stars {
+    color: #ffb800;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+}
+.test-quote {
+    color: var(--text-main, #f5f5f7);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+.test-author {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+.test-avatar {
+    width: 42px;
+    height: 42px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--orange, #ff9500);
+}
+.test-author strong {
+    display: block;
+    font-size: 0.95rem;
+}
+.test-author span {
+    font-size: 0.8rem;
+    color: var(--text-muted, #86868b);
 }
