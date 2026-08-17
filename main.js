@@ -407,13 +407,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const models = [
                 { key: 'iPhone 11', label: 'iPhone 11' },
-                { key: 'iPhone 12', label: 'iPhone 12' },
-                { key: 'iPhone 13', label: 'iPhone 13' },
-                { key: 'iPhone 14', label: 'iPhone 14' },
-                { key: 'iPhone 15', label: 'iPhone 15' },
-                { key: 'iPhone 16', label: 'iPhone 16' },
+                { key: 'iPhone 11 Pro', label: 'iPhone 11 Pro' },
+                { key: 'iPhone 11 Pro Max', label: 'iPhone 11 Pro Max' },
+                { key: 'iPhone 12 / Mini', label: 'iPhone 12 / Mini' },
+                { key: 'iPhone 12 Pro', label: 'iPhone 12 Pro' },
+                { key: 'iPhone 12 Pro Max', label: 'iPhone 12 Pro Max' },
+                { key: 'iPhone 13 / Mini', label: 'iPhone 13 / Mini' },
+                { key: 'iPhone 13 Pro', label: 'iPhone 13 Pro' },
+                { key: 'iPhone 13 Pro Max', label: 'iPhone 13 Pro Max' },
+                { key: 'iPhone 14 / Plus', label: 'iPhone 14 / Plus' },
+                { key: 'iPhone 14 Pro', label: 'iPhone 14 Pro' },
+                { key: 'iPhone 14 Pro Max', label: 'iPhone 14 Pro Max' },
+                { key: 'iPhone 15 / Plus', label: 'iPhone 15 / Plus' },
+                { key: 'iPhone 15 Pro', label: 'iPhone 15 Pro' },
+                { key: 'iPhone 15 Pro Max', label: 'iPhone 15 Pro Max' },
+                { key: 'iPhone 16 / Plus', label: 'iPhone 16 / Plus' },
+                { key: 'iPhone 16 Pro', label: 'iPhone 16 Pro' },
+                { key: 'iPhone 16 Pro Max', label: 'iPhone 16 Pro Max' },
+                { key: 'iPhone SE', label: 'iPhone SE' },
                 { key: 'iPad', label: 'iPad' },
-                { key: 'Otro', label: 'Otro modelo' },
+                { key: 'Otro', label: 'Otro modelo' }
             ];
             addOptions(models, (opt) => {
                 patientData.modelo = opt.key;
