@@ -214,8 +214,8 @@ img {
 }
 
 .logo-img {
-    height: 32px;
-    mix-blend-mode: screen;
+    height: 50px;
+    object-fit: contain;
 }
 
 .nav-links {
@@ -1028,6 +1028,6 @@ img {
 }
 
 .footer-logo {
-    height: 32px;
-    mix-blend-mode: screen;
+    height: 40px;
+    object-fit: contain;
 }
