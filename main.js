@@ -539,13 +539,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p style="margin-top:1rem;">Si quieres que revisemos tu equipo, escríbenos por WhatsApp con este diagnóstico y te atendemos de inmediato. 👇</p>
             `);
 
-            addCTA();
+            addCTA(dx);
+
+            // Scroll to diagnosis card so it doesn't hide behind screen top in mobile
+            setTimeout(() => {
+                const lastDx = chatContainer.querySelectorAll('.diagnosis-card');
+                if (lastDx.length > 0) {
+                    lastDx[lastDx.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 150);
         }, 1000);
     }
 
     // ---- CTA Buttons ----
-    function addCTA() {
-        const msg = `Hola Dr Phone, acabo de hacer el diagnóstico en línea.\n\nModelo: ${patientData.modelo}\nSíntoma: ${patientData.sintoma}\nDetalle: ${patientData.detalle || 'No especificado'}\n\nQuiero agendar mi reparación.`;
+    function addCTA(dx = null) {
+        let msg = `Hola Dr Phone, acabo de hacer el diagnóstico en línea.\n\nModelo: ${patientData.modelo}\nSíntoma: ${patientData.sintoma}\nDetalle: ${patientData.detalle || 'No especificado'}`;
+        
+        if (dx) {
+            msg += `\n\nDiagnóstico: ${dx.titulo} (${dx.gravedad})\nSugerencia: ${dx.tratamiento}`;
+        }
+        
+        msg += `\n\nQuiero agendar mi revisión.`;
+        
         const waURL = `https://wa.me/573505148495?text=${encodeURIComponent(msg)}`;
 
         const wrap = el('div', 'msg-actions fadeUp');

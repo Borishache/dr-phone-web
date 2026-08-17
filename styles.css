@@ -1097,6 +1097,10 @@ ul { list-style: none; }
 /* =================================================================
    RESPONSIVE
    ================================================================= */
+@media (max-width: 992px) {
+    .location-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+
 @media (max-width: 768px) {
     .nav-links, .nav-cta { display: none; }
     .menu-toggle { display: flex; }
@@ -1119,9 +1123,16 @@ ul { list-style: none; }
     .doctor-chat { padding: 1.25rem; }
     .msg-options { padding-left: 0; }
     .msg-actions { padding-left: 0; }
+    .typing-indicator { margin-left: 0; } /* Fix typing alignment */
+
+    /* Fix Progress Bar Overflow */
+    .room-progress { padding: 1rem 0.5rem; }
+    .progress-step { min-width: auto; flex: 1; }
+    .progress-step span { font-size: 0.55rem; }
+    .step-dot { width: 26px; height: 26px; font-size: 0.7rem; }
+    .progress-line { width: 20px; margin-bottom: 1rem; }
 
     .location { padding: 80px 0; }
-    .location-inner { grid-template-columns: 1fr; gap: 2rem; }
     .loc-map { height: 280px; }
 
     .footer-inner { flex-direction: column; gap: .75rem; text-align: center; }
