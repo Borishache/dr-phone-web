@@ -346,8 +346,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---- Helper: scroll chat into view ----
     function scrollToBottom() {
         registerTimeout(() => {
-            const last = chatContainer.lastElementChild;
-            if (last) last.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            chatContainer.scrollTo({
+                top: chatContainer.scrollHeight,
+                behavior: 'smooth'
+            });
         }, 100);
     }
 
