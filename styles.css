@@ -1145,3 +1145,271 @@ img {
     font-size: 0.8rem;
     color: var(--text-muted, #86868b);
 }
+
+/* =================================================================
+   CORRECCIONES LIGHT THEME & RESPONSIVE CRO (Dr. Phone)
+   ================================================================= */
+
+/* 1. Botones con contraste optimizado */
+.btn-fill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    background: var(--orange);
+    color: #ffffff !important;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    transition: var(--transition);
+    box-shadow: 0 4px 18px rgba(244, 129, 31, 0.35);
+    border: 1px solid var(--orange);
+}
+
+.btn-fill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(244, 129, 31, 0.5);
+    background: #e06e12;
+    border-color: #e06e12;
+}
+
+.btn-glass {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    background: rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--white);
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    transition: var(--transition);
+}
+
+.btn-glass:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+/* 2. Navbar en scroll adaptado a Light Theme */
+#navbar.scrolled {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+/* 3. Lead Magnet Card (Alineación & Responsive) */
+.lead-magnet-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.25rem 2rem;
+    margin: 0 auto 2rem auto;
+    max-width: 800px;
+    background: linear-gradient(135deg, rgba(244, 129, 31, 0.12), rgba(0, 113, 227, 0.06));
+    border: 1px solid rgba(244, 129, 31, 0.35);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.lm-badge {
+    background: var(--orange);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.lm-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    color: var(--white);
+}
+
+.lm-content p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.lm-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1b8a38;
+    white-space: nowrap;
+}
+
+/* 4. Testimonios (Corrección de Texto Fantasma & Responsive Grid) */
+.testimonials {
+    padding: 5rem 0;
+    position: relative;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 1.5rem;
+}
+
+.test-card {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: var(--glass-shadow);
+}
+
+.test-quote {
+    color: var(--text) !important; /* Corrige el valor fantasma #f5f5f7 */
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+/* 5. Doctor en Línea / Chat Room (Adaptación Total a Light Theme) */
+.room-header {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px 24px 0 0;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.room-name {
+    color: var(--white);
+}
+
+.room-progress {
+    background: rgba(246, 246, 248, 0.95);
+    border-left: 1px solid var(--glass-border);
+    border-right: 1px solid var(--glass-border);
+}
+
+.progress-step span {
+    color: var(--text-muted);
+}
+
+.step-dot {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    color: var(--text);
+}
+
+.progress-step.active .step-dot {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(244, 129, 31, 0.4);
+}
+
+.doctor-chat {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-top: none;
+    border-radius: 0 0 24px 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.msg-doctor .msg-body {
+    background: rgba(244, 129, 31, 0.08);
+    color: var(--text);
+    border: 1px solid rgba(244, 129, 31, 0.22);
+    border-top-left-radius: 4px;
+}
+
+.msg-patient .msg-body {
+    background: #f0f0f4;
+    color: var(--white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom-right-radius: 4px;
+}
+
+.opt-btn {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: var(--text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.opt-btn:hover:not(.disabled),
+.opt-btn.selected {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(244, 129, 31, 0.35);
+}
+
+.opt-btn.disabled {
+    opacity: 0.4;
+    background: #f0f0f2;
+    color: #888888;
+    cursor: default;
+}
+
+.diagnosis-card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.severity-low { background: rgba(46, 125, 50, 0.1); color: #2e7d32; border: 1px solid rgba(46, 125, 50, 0.3); }
+.severity-medium { background: rgba(245, 127, 23, 0.1); color: #b26a00; border: 1px solid rgba(245, 127, 23, 0.3); }
+.severity-high { background: rgba(230, 81, 0, 0.1); color: #d84315; border: 1px solid rgba(230, 81, 0, 0.3); }
+.severity-critical { background: rgba(198, 40, 40, 0.1); color: #c62828; border: 1px solid rgba(198, 40, 40, 0.3); }
+
+/* 6. Mapa Light Mode */
+.loc-map iframe {
+    filter: none !important; /* Elimina la inversión oscura */
+}
+
+/* 7. Media Query Responsive @media (max-width: 768px) */
+@media (max-width: 768px) {
+    .lead-magnet-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.25rem 1rem;
+        gap: 1rem;
+    }
+    
+    .lm-counter {
+        justify-content: center;
+    }
+    
+    .testimonials {
+        padding: 3.5rem 0;
+    }
+    
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .test-card {
+        padding: 1.5rem;
+    }
+}

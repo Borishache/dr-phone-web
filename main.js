@@ -328,9 +328,24 @@ document.addEventListener('DOMContentLoaded', () => {
         setRoomStatus('En línea · Listo para tu consulta', '');
     }
 
+    // ---- Active timeouts tracker for clean restarts ----
+    let activeTimeouts = [];
+    function clearAllTimeouts() {
+        activeTimeouts.forEach(t => clearTimeout(t));
+        activeTimeouts = [];
+    }
+    function registerTimeout(fn, delay) {
+        const id = setTimeout(() => {
+            activeTimeouts = activeTimeouts.filter(t => t !== id);
+            fn();
+        }, delay);
+        activeTimeouts.push(id);
+        return id;
+    }
+
     // ---- Helper: scroll chat into view ----
     function scrollToBottom() {
-        setTimeout(() => {
+        registerTimeout(() => {
             const last = chatContainer.lastElementChild;
             if (last) last.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }, 100);
@@ -341,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const dots = el('div', 'typing-indicator', '<span></span><span></span><span></span>');
         chatContainer.appendChild(dots);
         scrollToBottom();
-        setTimeout(() => {
+        registerTimeout(() => {
             dots.remove();
             callback();
         }, ms);
@@ -377,10 +392,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const wrap = el('div', 'msg-options fadeUp');
         options.forEach(opt => {
             const btn = el('button', 'opt-btn', opt.label);
+            btn.setAttribute('type', 'button');
+            btn.setAttribute('aria-pressed', 'false');
             btn.addEventListener('click', () => {
-                // Disable all buttons
-                wrap.querySelectorAll('button').forEach(b => { b.disabled = true; b.classList.add('disabled'); });
+                // Disable all buttons to prevent race conditions
+                wrap.querySelectorAll('button').forEach(b => { 
+                    b.disabled = true; 
+                    b.classList.add('disabled'); 
+                });
                 btn.classList.add('selected');
+                btn.setAttribute('aria-pressed', 'true');
                 callback(opt);
             });
             wrap.appendChild(btn);
@@ -393,8 +414,16 @@ document.addEventListener('DOMContentLoaded', () => {
     //  STEP 1: Greeting + Model Selection
     // ================================================================
     function startConsultation() {
+        clearAllTimeouts();
         chatContainer.innerHTML = '';
-        patientData = { modelo: '', sintoma: '', sintomaKey: '', detalle: '', detalleKey: '', gravedad: '' };
+        patientData = { 
+            modelo: '', 
+            sintoma: '', 
+            sintomaKey: '', 
+            detalle: '', 
+            detalleKey: '', 
+            gravedad: '' 
+        };
         resetRoom();
 
         typeDelay(() => {
@@ -432,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 patientData.modelo = opt.key;
                 addPatientBubble(opt.label);
                 setProgress(2);
-                setTimeout(() => askSymptom(), 400);
+                registerTimeout(() => askSymptom(), 400);
             });
         }, 800);
     }
@@ -462,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 patientData.sintoma = opt.label;
                 addPatientBubble(opt.label);
                 setProgress(3);
-                setTimeout(() => askFollowUp(), 400);
+                registerTimeout(() => askFollowUp(), 400);
             });
         });
     }
@@ -473,9 +502,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function askFollowUp() {
         const fu = followUps[patientData.sintomaKey];
 
-        // If "otro" or no follow-up, skip to diagnosis directly
+        // If "otro" or no follow-up, set default detail and skip to diagnosis
         if (!fu || !fu.pregunta) {
             patientData.detalleKey = 'general';
+            patientData.detalle = 'Falla general / No clasificada';
             setProgress(4);
             showDiagnosis();
             return;
@@ -490,7 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 patientData.detalle = opt.label;
                 addPatientBubble(opt.label);
                 setProgress(4);
-                setTimeout(() => showDiagnosis(), 400);
+                registerTimeout(() => showDiagnosis(), 400);
             });
         });
     }
@@ -501,18 +531,24 @@ document.addEventListener('DOMContentLoaded', () => {
     function showDiagnosis() {
         const dx = diagnoses[patientData.sintomaKey]?.[patientData.detalleKey];
         setRoomStatus('Generando diagnóstico...', 'diagnosing');
+        
         if (!dx) {
+            patientData.gravedad = 'Por determinar';
             typeDelay(() => {
                 setRoomStatus('Diagnóstico completado ✓', '');
                 addDoctorBubble(`<p>Necesito ver tu equipo en persona para darte un diagnóstico certero. ¡Escríbenos por WhatsApp y agenda tu cita!</p>`);
-                addCTA();
+                addCTA(null);
             });
             return;
         }
 
+        // Sincronizar gravedad en el estado del paciente
+        patientData.gravedad = dx.gravedad || 'Por determinar';
+
         typeDelay(() => {
             setRoomStatus('Diagnóstico completado ✓', '');
-            // Gravedad color
+            
+            // Gravedad color mapping
             let gravedadClass = 'severity-low';
             if (dx.gravedad.includes('Crítica')) gravedadClass = 'severity-critical';
             else if (dx.gravedad.includes('Alta')) gravedadClass = 'severity-high';
@@ -555,7 +591,7 @@ document.addEventListener('DOMContentLoaded', () => {
             addCTA(dx);
 
             // Scroll to diagnosis card so it doesn't hide behind screen top in mobile
-            setTimeout(() => {
+            registerTimeout(() => {
                 const lastDx = chatContainer.querySelectorAll('.diagnosis-card');
                 if (lastDx.length > 0) {
                     lastDx[lastDx.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -566,10 +602,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---- CTA Buttons ----
     function addCTA(dx = null) {
-        let msg = `Hola Dr Phone, acabo de hacer el diagnóstico en línea.\n\nModelo: ${patientData.modelo}\nSíntoma: ${patientData.sintoma}\nDetalle: ${patientData.detalle || 'No especificado'}`;
+        const modelo = patientData.modelo || 'No especificado';
+        const sintoma = patientData.sintoma || 'No especificado';
+        const detalle = patientData.detalle || 'No especificado';
+
+        let msg = `Hola Dr Phone, acabo de hacer el diagnóstico en línea.\n\n📱 Modelo: ${modelo}\n⚠️ Síntoma: ${sintoma}\n🔍 Detalle: ${detalle}`;
         
         if (dx) {
-            msg += `\n\nDiagnóstico: ${dx.titulo} (${dx.gravedad})\nSugerencia: ${dx.tratamiento}`;
+            msg += `\n\n🩺 Diagnóstico: ${dx.titulo} (${dx.gravedad})\n🛠️ Sugerencia: ${dx.tratamiento}`;
         }
         
         msg += `\n\nQuiero agendar mi revisión.`;
@@ -579,12 +619,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const wrap = el('div', 'msg-actions fadeUp');
         wrap.innerHTML = `
             <a href="${waURL}" target="_blank" rel="noopener" class="btn-fill">Agendar reparación por WhatsApp</a>
-            <button class="btn-ghost" id="restartBtn">Hacer otra consulta</button>
+            <button class="btn-ghost" id="restartBtn" type="button">Hacer otra consulta</button>
         `;
         chatContainer.appendChild(wrap);
         scrollToBottom();
 
-        document.getElementById('restartBtn').addEventListener('click', startConsultation);
+        const restartBtn = wrap.querySelector('#restartBtn');
+        if (restartBtn) {
+            restartBtn.addEventListener('click', startConsultation);
+        }
     }
 
     // ---- Init ----
